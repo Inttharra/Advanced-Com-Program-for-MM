@@ -21,7 +21,6 @@
     $userID = $_POST['userIDMessage'];
 
     $updateQuery = "UPDATE orders SET qty = '$qty', `status` = '$status', `time` = '$time'  WHERE orderID = '$orderID'";
-    echo $updateQuery;
     $updateResult = mysqli_query($connect, $updateQuery);
 
     if($status == "processing"){
@@ -115,7 +114,6 @@
     } else {
         $message = "Your $name is complete! Thank you for your order.";
         $messageQuery = "INSERT INTO notifications (`message`, userID, `status`) VALUES ('$message', '$userID', 'Unread')";
-        echo $messageQuery;
         $result = mysqli_query($connect, $messageQuery);
 
         if($result) {

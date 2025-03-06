@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Beans</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <?php
     require_once "php/config.php";
     session_start();
@@ -137,17 +147,6 @@
         }
     }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coffee Beans</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="style.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <?php include_once "navbar.php" ?>
@@ -234,13 +233,14 @@
             </div>
         </div>
     </div>
+    <?php include_once "footer.php"; ?>
     <script src="js/bootstrap.bundle.js"></script>
     <script>
         $('.delete-btn').click(function(e) {
             var goodsID = $(this).data('id');
             e.preventDefault();
             deleteConfirm(goodsID);
-        })
+        });
 
         function deleteConfirm(goodsID) {
             Swal.fire({
@@ -261,14 +261,12 @@
                         })
                         .done(function() {
                             Swal.fire({
-                        .done(function() {
-                            Swal.fire({
                                 title: 'Success',
                                 text: 'This menu deleted successfully',
                                 icon: 'success'
                             }).then(() => {
                                 document.location.href = 'manage_coffeeBeans.php';
-                            })
+                            });
                         })
                         .fail(function() {
                             Swal.fire({
@@ -277,10 +275,10 @@
                                 icon: 'error'
                             });
                             window.location.reload();
-                        })
-                    })
+                        });
+                    });
                 }
-            })
+            });
         }
     </script>
 </body>

@@ -142,6 +142,7 @@
             </div>
         <?php } ?>
     </div>
+    <?php include_once "footer.php"; ?>
     <script src="js/bootstrap.bundle.js"></script>
 </body>
 </html>

@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Menu</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <?php
     require_once "php/config.php";
     session_start();
@@ -46,7 +56,7 @@
                                         }
                                     }).then((result) => {
                                         if(result.isConfirmed) {
-                                            window.location.href = 'manage_coffeeBeans.php';
+                                            window.location.href = 'manage_menu.php';
                                         }
                                     });
                                 });
@@ -66,7 +76,7 @@
                                         }
                                     }).then((result) => {
                                         if(result.isConfirmed) {
-                                            window.location.href = 'manage_coffeeBeans.php';
+                                            window.location.href = 'manage_menu.php';
                                         }
                                     });
                                 });
@@ -102,7 +112,7 @@
                                             }
                                         }).then((result) => {
                                             if(result.isConfirmed) {
-                                                window.location.href = 'manage_coffeeBeans.php';
+                                                window.location.href = 'manage_menu.php';
                                             }
                                         });
                                     });
@@ -122,7 +132,7 @@
                                             }
                                         }).then((result) => {
                                             if(result.isConfirmed) {
-                                                window.location.href = 'manage_coffeeBeans.php';
+                                                window.location.href = 'manage_menu.php';
                                             }
                                         });
                                     });
@@ -137,17 +147,6 @@
             }
         }
     ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Menu</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="style.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <?php include_once "navbar.php" ?>
@@ -235,6 +234,7 @@
             </div>
         </div>
     </div>
+    <?php include_once "footer.php"; ?>
     <script src="js/bootstrap.bundle.js"></script>
     <script>
         $('.delete-btn').click(function(e) {

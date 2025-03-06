@@ -162,6 +162,7 @@
             </div>
         </div>
     </div>
+    <?php include_once "footer.php"; ?>
     <script src="js/bootstrap.bundle.js"></script>
     <script>
         $('.delete-btn').click(function(e) {

@@ -54,7 +54,7 @@
                             echo "<table class='table table-hover'>
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
+                                            <th style='width: 450px;'>Name</th>
                                             <th>Status</th>
                                             <th style='width: 100px;'>Edit</th>
                                             <th style='width: 100px;'>Delete</th>
@@ -133,6 +133,7 @@
         <div class="col col-md-1 col-lg-1"></div>
     </div>
 </div>
+<?php include_once "footer.php"; ?>
 <script src="js/bootstrap.bundle.js"></script>
 <script>
     $('.delete-btn').click(function(e) {

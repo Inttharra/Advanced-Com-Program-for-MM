@@ -9,7 +9,27 @@
     }
 
     $message = "SELECT * FROM notificationAdmin LEFT JOIN users ON notificationAdmin.userID = users.user_id";
+    $adminName = "SELECT * FROM notificationAdmin LEFT JOIN users ON notificationAdmin.adminIDRead = users.user_id";
+    $resultAdminName = mysqli_query($connect, $adminName);
     $result = mysqli_query($connect, $message);
+
+    if(isset($_POST['readStatus'])) {
+        $status = $_POST['status'];
+        $adminID = $_SESSION['id'];
+        $notiID = $_POST['messageID'];
+
+        $read = "UPDATE notificationAdmin 
+                SET `status` = '$status', `adminIDRead` = '$adminID' 
+                WHERE `messageID` = '$notiID'";
+        $resultRead = mysqli_query($connect, $read);
+
+        if($resultRead) {
+            echo "<script>alert('Notification status updated successfully');</script>";
+            header("refresh:1; url=notiAdmin.php");
+        } else {
+            echo "Error: " . mysqli_error($connect); // Debugging statement
+        }
+    }
 
 ?>
 
@@ -29,7 +49,7 @@
             <div class="col col-md-1 col-lg-1">
 
             </div>
-            <div class="col-12 col-md-1 col-lg-10">
+            <div class="col-12 col-md-10 col-lg-10">
                 <div class="mt-3 mb-5 text-center">
                     <h2>Notifications</h2>
                 </div>
@@ -45,14 +65,18 @@
                         <thead>
                             <tr>
                                 <td>Message</td>
-                                <td style="width: 200px;">Time</td>
+                                <td style="width: 200px;">Create Time</td>
+                                <td style="width: 200px;">Update Time</td>
                                 <td style="width: 150px;">Information</td>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php while($noti = mysqli_fetch_assoc($result)) { ?>
+                            <?php 
+                            $name = mysqli_fetch_assoc($resultAdminName);
+                            while($noti = mysqli_fetch_assoc($result)) { ?>
                             <tr>
                                 <td><?= $noti['text']; ?></td>
+                                <td><?= $noti['createTime']; ?></td>
                                 <td><?= $noti['updateTime']; ?></td>
                                 <td>
                                     <!-- Button trigger modal -->
@@ -71,23 +95,31 @@
                                         <div class="modal-body">
                                             <p>Message : <?= $noti['text']; ?></p>
                                             <p>From : <?= $noti['firstname']; ?> <?= $noti['lastname']; ?></p>
-                                            <form action="notiAdmin" method="post">
+                                            <form action="notiAdmin.php" method="post">
                                                 <input type="hidden" name="messageID" value="<?= $noti['messageID']; ?>">
-                                                <label for="makeAsread" class="form-label">Mask As read</label>
+                                                <input type="hidden" name="adminID" value="<?= $_SESSION['id'];?>">
+                                                <label for="makeAsread" class="form-label">Mark As Read</label>
+                                                <?php if($noti['status'] == "Unread") { ?>
                                                 <select name="status" class="form-select">
-                                                    <?php if($noti['status'] == "Unread") { ?>
                                                         <option value="<?= $noti['status'] ?>"><?= $noti['status'] ?></option>
                                                         <option value="Read">Read</option>
-                                                    <?php } else { ?>
-                                                        <option value="<?= $noti['status'] ?>"><?= $noti['status'] ?></option>
-                                                        <option value="Unread">Unread</option>
-                                                    <?php } ?>
                                                 </select>
+                                                <?php } else { ?>
+                                                    <select class="form-select" disabled>
+                                                        <option><?= $noti['status']; ?></option>
+                                                    </select>
+                                                <?php } ?>
+                                                <?php if($noti['adminIDRead'] != 0) { ?>
+                                                    <p class="mt-2"> Read by : <?= $name['firstname']; ?> <?= $name['lastname'];?> </p>
+                                                <?php } ?>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Save changes</button>
-                                            </form>
+                                            <?php if($noti['status'] == "Read") { ?>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <?php } else { ?>
+                                                <input type="submit" value="Save changes" class="btn btn-primary" name="readStatus">
+                                            <?php } ?>
+                                        </form>
                                         </div>
                                         </div>
                                     </div>

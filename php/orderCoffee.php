@@ -1,15 +1,3 @@
-<head>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        .swal-custom-font {
-            font-family: 'Poppins', serif !important;
-        }
-    </style>
-</head>
-
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 <?php
     session_start();
     require_once "config.php";
@@ -26,8 +14,8 @@
                             $(document).ready(function() {
                                 Swal.fire({
                                     icon: 'success',
-                                    title: 'Success',
-                                    text: 'Add order to cart successfully',
+                                    title: 'Order Added',
+                                    text: 'You have successfully added the item to your cart.',
                                     customClass: {
                                         title: 'swal-custom-font',
                                         popup: 'swal-custom-font',
@@ -45,8 +33,8 @@
                             $(document).ready(function() {
                                 Swal.fire({
                                     icon: 'error',
-                                    title: 'Oop...',
-                                    text: 'Can not add the order to cart, please try agian',
+                                    title: 'Order Failed',
+                                    text: 'Unable to add the item to your cart. Please try again.',
                                     customClass: {
                                         title: 'swal-custom-font',
                                         popup: 'swal-custom-font',
@@ -76,8 +64,8 @@
                             $(document).ready(function() {
                                 Swal.fire({
                                     icon: 'success',
-                                    title: 'Success',
-                                    text: 'something ka?',
+                                    title: 'Order Successful',
+                                    text: 'Your order has been successfully placed and a notification has been sent to the admin.',
                                     customClass: {
                                         title: 'swal-custom-font',
                                         popup: 'swal-custom-font',
@@ -95,8 +83,8 @@
                             $(document).ready(function() {
                                 Swal.fire({
                                     icon: 'error',
-                                    title: 'Oop...',
-                                    text: 'Can not add the order, please try agian',
+                                    title: 'Order Failed',
+                                    text: 'Unable to place your order. Please try again.',
                                     customClass: {
                                         title: 'swal-custom-font',
                                         popup: 'swal-custom-font',
@@ -115,8 +103,8 @@
                             $(document).ready(function() {
                                 Swal.fire({
                                     icon: 'error',
-                                    title: 'Oop...',
-                                    text: 'Can not add the order, please try agian',
+                                    title: 'Order Failed',
+                                    text: 'Unable to place your order. Please try again.',
                                     customClass: {
                                         title: 'swal-custom-font',
                                         popup: 'swal-custom-font',

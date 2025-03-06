@@ -53,7 +53,6 @@
                         });
                     </script>";
         } else {
-            echo "Error: " . mysqli_error($connect); // Debugging statement
             echo "<script>
                         $(document).ready(function() {
                             Swal.fire({
@@ -111,7 +110,6 @@
                             });
                         </script>";
                 } else {
-                    echo "Error: " . mysqli_error($connect); // Debugging statement
                     echo "<script>
                             $(document).ready(function() {
                                 Swal.fire({

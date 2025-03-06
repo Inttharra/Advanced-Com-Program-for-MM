@@ -1,3 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <?php
     session_start();
     require_once "php/config.php";
@@ -8,26 +19,17 @@
 
     $final_price = 0; // Initialize final price
 
-    if(isset($_GET['del'])) {
+    if (isset($_GET['del'])) {
         $id = $_GET['del'];
         $deleteQuery = "DELETE FROM cart WHERE order_id = '$id'";
         $deleteResult = mysqli_query($connect, $deleteQuery);
 
-        if($deleteResult) {
+        if ($deleteResult) {
             echo "<script>alert('This menu has been deleted successfully');</script>";
-            header("refresh:1; url=manage_menu.php");
+            header("refresh:1; url=cart.php");
         }
     }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="style.css">
     <style>
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
@@ -40,13 +42,13 @@
     <?php include_once "navbar.php"; ?>
     <div class="container-fluid">
         <div class="row">
-            <div class="col col-md-1 col-lg-1">
-                <!-- ห้ามเขียนโค้ดตรงนี้ -->
-            </div>
+            <div class="col col-md-1 col-lg-1"></div>
             <div class="col-12 col-md-10 col-lg-10">
                 <div class="row my-3">
                     <h2 class="text-center">Cart</h2>
-                    <?php if(mysqli_num_rows($result) !== 0) { ?>
+                    
+                    <?php if (mysqli_num_rows($result) > 0) { ?>
+                    <!-- เมื่อมีสินค้าในตะกร้า -->
                     <div class="table-reponsive">
                         <table class="table">
                             <thead>
@@ -60,7 +62,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php while($allMenu = mysqli_fetch_assoc($result)) { ?>
+                                <?php while ($allMenu = mysqli_fetch_assoc($result)) { ?>
                                 <tr>
                                     <td><?= $allMenu['name']; ?></td>
                                     <td><?= $allMenu['qty']; ?></td>
@@ -110,7 +112,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td><a href="cart.php?del=<?= $allMenu['order_id']; ?>" class="btn btn-danger w-100 delete-btn">Delete</a></td>
+                                    <td><a href="cart.php?del=<?= $allMenu['order_id']; ?>" class="btn btn-danger w-100 delete-btn" data-id="<?= $allMenu['order_id']; ?>">Delete</a></td>
                                 </tr>
                                 
                                 <?php } ?>
@@ -119,7 +121,8 @@
                                     <td colspan="1"><?php echo number_format($final_price, 2); ?></td> <!-- Display final price -->
                                     <td colspan="2"><a href="orderSum.php" class="btn btn-success w-100">Confirm</a></td>
                                 </tr>
-                                <?php } else {   ?>
+                                <?php } else { ?>
+                                        <!-- เมื่อไม่มีสินค้าในตะกร้า -->
                                         <div class="text-center">
                                             <img src="material/shopping.png" width="200px" height="200px" class="mt-3">
                                             <p class="fs-4">Your cart is currently empty</p>
@@ -131,9 +134,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col col-md-1 col-lg-1">
-                <!-- ห้ามเขียนโค้ดตรงนี้ -->
-            </div>
+            <div class="col col-md-1 col-lg-1"></div>
         </div>
     </div>
     <?php include_once "footer.php"; ?>
@@ -141,9 +142,9 @@
     <script>
         // Use event delegation to handle button clicks dynamically for each modal
         document.addEventListener("DOMContentLoaded", function () {
-            const btnPlusElements = document.querySelectorAll('[id^="btnPlus"]');
-            const btnMinusElements = document.querySelectorAll('[id^="btnMinus"]');
-            const inputElements = document.querySelectorAll('[id^="numberInput"]');
+            const btnPlusElements = document.querySelectorAll('[id^="btnPlus"]'); // ใช้ selector ที่เริ่มต้นด้วย 'btnPlus'
+            const btnMinusElements = document.querySelectorAll('[id^="btnMinus"]'); // ใช้ selector ที่เริ่มต้นด้วย 'btnMinus'
+            const inputElements = document.querySelectorAll('[id^="numberInput"]'); // ใช้ selector ที่เริ่มต้นด้วย 'numberInput'
 
             btnPlusElements.forEach((btnPlus, index) => {
                 btnPlus.addEventListener("click", function () {
@@ -161,6 +162,52 @@
                 });
             });
         });
+
+        // Use SweetAlert2 to confirm deletion
+        $('.delete-btn').click(function(e) {
+            var goodsID = $(this).data('id');
+            e.preventDefault();
+            deleteConfirm(goodsID);
+        });
+
+        function deleteConfirm(goodsID) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#47663B",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it",
+                showLoaderOnConfirm: true,
+                preConfirm: function() {
+                    return new Promise(function(resolve) {
+                        $.ajax({
+                            url: 'cart.php',
+                            type: 'GET',
+                            data: { del: goodsID } // Send the 'del' parameter with the goodsID
+                        })
+                        .done(function() {
+                            Swal.fire({
+                                title: 'Success',
+                                text: 'This item has been deleted successfully',
+                                icon: 'success'
+                            }).then(() => {
+                                document.location.href = 'cart.php';  // Refresh the page after deletion
+                            });
+                        })
+                        .fail(function() {
+                            Swal.fire({
+                                title: 'Oops...',
+                                text: 'Something went wrong with ajax',
+                                icon: 'error'
+                            });
+                            window.location.reload();
+                        });
+                    });
+                }
+            });
+        }
     </script>
 </body>
 </html>
