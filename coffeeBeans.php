@@ -24,7 +24,7 @@
                     <p class="text-center fs-1">Menu</p>
                 </div>
                 <div>
-                    <p class="text-start fs-3">Coffe Beans</p>
+                    <p class="text-start fs-3">Coffee Beans</p>
                 </div>
                 <div class="row my-2">
                     <!-- ไปทำต่อเองเริ่มให้แล้ว -->
